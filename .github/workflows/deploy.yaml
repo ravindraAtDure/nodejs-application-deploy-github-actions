@@ -15,8 +15,8 @@ jobs:
 
       - name: Test SSH connectivity
         run: |
-          echo "Testing ${{ secrets.HOST }}:22"
-          timeout 10 bash -c "</dev/tcp/${{ secrets.HOST }}/22" \
+          echo "Testing ${{ secrets.SSH_HOST }}:22"
+          timeout 10 bash -c "</dev/tcp/${{ secrets.SSH_HOST }}/22" \
           && echo "Port 22 is reachable" \
           || echo "Port 22 is NOT reachable"
 
@@ -26,6 +26,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
-          script: cd /root/nodejs-application-deploy-github-actions
+          script: |
+            cd /root/nodejs-application-deploy-github-actions
             git pull
             docker compose up -d --build
